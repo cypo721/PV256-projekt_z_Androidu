@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 editor.putBoolean(THEME, !mainTheme);
                 editor.apply();
-                Intent intent = new Intent(getApplicationContext() ,MainActivity.class);
+                Intent intent = new Intent(MainActivity.this ,MainActivity.class);
                 startActivity(intent);
                 finish();
             }
