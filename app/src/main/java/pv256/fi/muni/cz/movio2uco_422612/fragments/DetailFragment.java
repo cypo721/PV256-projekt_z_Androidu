@@ -54,7 +54,7 @@ public class DetailFragment extends Fragment {
 
         if (mMovie != null) {
             titleTv.setText(mMovie.getTitle());
-            titleLowTv.setText(mMovie.getCoverPath());
+            titleLowTv.setText(mMovie.getBackdrop());
         }
 
         return view;
