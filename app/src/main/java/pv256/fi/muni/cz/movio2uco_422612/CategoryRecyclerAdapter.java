@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import pv256.fi.muni.cz.movio2uco_422612.entities.Movie;
@@ -49,6 +52,11 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         return null;
     }
 
+    public void setItems(ArrayList<Object> items) {
+        this.mData = items;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemViewType(int position) {
         return mData.get(position) instanceof Movie ? TYPE_MOVIE : TYPE_CATEGORY;
@@ -63,9 +71,10 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 Movie movie = (Movie) mData.get(position);
                 movieHolder.title.setText(movie.getTitle());
                 movieHolder.rating.setText(Float.toString(movie.getPopularity()));
-                if(!movie.getBackdrop().isEmpty() && mContext != null) {
-                    movieHolder.image.setImageDrawable(mContext.getDrawable(movie.getCoverId()));
-                }
+                Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500/" + movie.getCoverPath()).into(movieHolder.image);
+//                if(!movie.getBackdrop().isEmpty() && mContext != null) {
+//                    movieHolder.image.setImageDrawable(mContext.getDrawable(movie.getCoverId()));
+//                }
                 break;
             case TYPE_CATEGORY:
                 ViewHolder_category categoryHolder = (ViewHolder_category) holder;

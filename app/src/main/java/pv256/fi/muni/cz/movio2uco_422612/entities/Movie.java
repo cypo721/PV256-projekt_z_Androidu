@@ -3,16 +3,23 @@ package pv256.fi.muni.cz.movio2uco_422612.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by pato on 17.10.2017.
  */
 
 public class Movie implements Parcelable{
 
+    @SerializedName("realease_date")
     private long mRealeaseDate;
+    @SerializedName("poster_path")
     private String mCoverPath;
+    @SerializedName("original_title")
     private String mTitle;
+    @SerializedName("backdrop_path")
     private String mBackdrop;
+    @SerializedName("vote_average")
     private float mPopularity;
     private int mCoverId;
 
