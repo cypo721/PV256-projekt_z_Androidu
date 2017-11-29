@@ -21,7 +21,7 @@ import pv256.fi.muni.cz.movio2uco_422612.entities.Movie;
  * Created by pato on 2.11.2017.
  */
 
-public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
+public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_CATEGORY = 0;
     private static final int TYPE_MOVIE = 1;
     private static final int TYPE_MO_DATA = 2;
@@ -38,14 +38,14 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view; // = inflater.inflate(R.layout.fragment_movie_list, parent, false);
-        switch(viewType) {
+        switch (viewType) {
             case TYPE_CATEGORY:
-                view = inflater.inflate(R.layout.list_item_category, parent,false);
+                view = inflater.inflate(R.layout.list_item_category, parent, false);
                 return new ViewHolder_category(view);
             case TYPE_MOVIE:
                 view = inflater.inflate(R.layout.list_item_movie, parent, false);
                 return new ViewHolder_movie(view, mContext);
-            case TYPE_MO_DATA :
+            case TYPE_MO_DATA:
                 view = inflater.inflate(R.layout.no_data_fragment, parent, false);
                 return new ViewHolder_empty(view);
         }
@@ -62,25 +62,33 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         return mData.get(position) instanceof Movie ? TYPE_MOVIE : TYPE_CATEGORY;
     }
 
+    private Context getContext() {
+        return mContext;
+    }
+
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         int rowType = getItemViewType(position);
-        switch(rowType){
+        switch (rowType) {
             case TYPE_MOVIE:
                 ViewHolder_movie movieHolder = (ViewHolder_movie) holder;
                 Movie movie = (Movie) mData.get(position);
                 movieHolder.title.setText(movie.getTitle());
                 movieHolder.rating.setText(Float.toString(movie.getPopularity()));
                 Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500/" + movie.getCoverPath()).into(movieHolder.image);
-//                if(!movie.getBackdrop().isEmpty() && mContext != null) {
-//                    movieHolder.image.setImageDrawable(mContext.getDrawable(movie.getCoverId()));
-//                }
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((MainActivity) CategoryRecyclerAdapter.this.getContext()).onMovieSelect(position);
+                    }
+                });
                 break;
             case TYPE_CATEGORY:
                 ViewHolder_category categoryHolder = (ViewHolder_category) holder;
                 categoryHolder.text.setText((String) mData.get(position));
                 break;
-            case TYPE_MO_DATA :
+            case TYPE_MO_DATA:
                 ViewHolder_empty emptyView = (ViewHolder_empty) holder;
                 emptyView.text.setText(mData.get(position).toString() /*noDataLabel*/);
                 break;
@@ -117,15 +125,15 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             View.OnClickListener clickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(context != null) {
+                    if (context != null) {
                         ((MainActivity) context).onMovieSelect(getAdapterPosition());
                     }
                 }
             };
             View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick (View view) {
-                    if(context != null) {
+                public boolean onLongClick(View view) {
+                    if (context != null) {
                         ((MainActivity) context).onMovieLongClick(getAdapterPosition());
                         return true;
                     }
@@ -136,6 +144,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             mLayout.setOnLongClickListener(longClickListener);
         }
     }
+
     public static class ViewHolder_empty extends RecyclerView.ViewHolder {
         public TextView text;
 

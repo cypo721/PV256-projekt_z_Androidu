@@ -46,9 +46,6 @@ public class DataService {
         Response response = client.newCall(request).execute();
         Gson gson = new Gson();
         MovieList movieList =  gson.fromJson(response.body().string(), MovieList.class);
-//        for(Movie movieResponse: movieList.results) {
-//            movieResponse.imageBasePath = getConfiguration().images.secureBaseUrl;
-//        }
         return movieList;
     }
 
@@ -65,9 +62,6 @@ public class DataService {
         Response response = client.newCall(request).execute();
         Gson gson = new Gson();
         MovieList movieList =  gson.fromJson(response.body().string(), MovieList.class);
-//        for(Movie movieResponse: movieList.results) {
-//            movieResponse.setCoverPath(); = getConfiguration().images.secureBaseUrl;
-//        }
         return movieList;
     }
 

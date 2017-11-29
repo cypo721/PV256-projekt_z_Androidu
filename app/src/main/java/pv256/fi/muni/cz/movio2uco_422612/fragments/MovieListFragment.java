@@ -1,10 +1,12 @@
 package pv256.fi.muni.cz.movio2uco_422612.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import pv256.fi.muni.cz.movio2uco_422612.BuildConfig;
 import pv256.fi.muni.cz.movio2uco_422612.CategoryRecyclerAdapter;
 import pv256.fi.muni.cz.movio2uco_422612.DataService;
 import pv256.fi.muni.cz.movio2uco_422612.MainActivity;
+import pv256.fi.muni.cz.movio2uco_422612.MovieDetailActivity;
 import pv256.fi.muni.cz.movio2uco_422612.R;
 import pv256.fi.muni.cz.movio2uco_422612.entities.Movie;
 import pv256.fi.muni.cz.movio2uco_422612.entities.MovieList;
@@ -41,9 +45,6 @@ public class MovieListFragment extends Fragment {
     private Context mContext;
     private ArrayList<Movie> mMovieList = new ArrayList<>();
     private RecyclerView mRecyclerView;
-    protected CategoryRecyclerAdapter mAdapter;
-    protected RecyclerView.LayoutManager mLayoutManager;
-    protected AsyncTask loaderTask;
 
     @Override
     public void onAttach(Context activity) {
@@ -79,59 +80,9 @@ public class MovieListFragment extends Fragment {
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
 
-
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        setRecyclerViewLayoutManager();
-
-        mAdapter = new CategoryRecyclerAdapter(getContext(), new ArrayList<>());
-        mRecyclerView.setAdapter(mAdapter);
-
-        loaderTask = new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                try {
-                    MovieList movieList1 = DataService.getInstance().getMostPopularMovies();
-                    MovieList movieList2 = DataService.getInstance().getNewMovies();
-                    final ArrayList<Object> items = new ArrayList<>(14);
-                    items.add("Most Popular");
-                    items.addAll(Arrays.asList(movieList1.results));
-                    items.add("New Movies");
-                    items.addAll(Arrays.asList(movieList2.results));
-                    MovieListFragment.this.getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-//                            if(!((MainActivity)getActivity()).isSystemOnline()) {
-//                                mRecyclerView.setVisibility(View.GONE);
-//                                view.findViewById(R.id.empty_view_no_internet).setVisibility(View.VISIBLE);
-//                            } else if(items.size() <= 2) {
-//                                mRecyclerView.setVisibility(View.GONE);
-//                                view.findViewById(R.id.).setVisibility(View.VISIBLE);
-//                            } else {
-                                mAdapter.setItems(items);
-                            //}
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        };
-        loaderTask.execute();
-
         return view;
     }
 
-    public void setRecyclerViewLayoutManager() {
-        int scrollPosition = 0;
-        if (mRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.scrollToPosition(scrollPosition);
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

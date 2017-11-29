@@ -13,6 +13,7 @@ import pv256.fi.muni.cz.movio2uco_422612.fragments.DetailFragment;
 
 public class MovieDetailActivity extends AppCompatActivity{
     public static final String EXTRA_MOVIE = "extra_movie";
+    public static final String TWO_PANE = "two_pane";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
