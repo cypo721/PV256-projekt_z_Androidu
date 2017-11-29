@@ -1,36 +1,31 @@
 package pv256.fi.muni.cz.movio2uco_422612.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
 import pv256.fi.muni.cz.movio2uco_422612.BuildConfig;
 import pv256.fi.muni.cz.movio2uco_422612.CategoryRecyclerAdapter;
-import pv256.fi.muni.cz.movio2uco_422612.DataService;
-import pv256.fi.muni.cz.movio2uco_422612.MainActivity;
-import pv256.fi.muni.cz.movio2uco_422612.MovieDetailActivity;
+import pv256.fi.muni.cz.movio2uco_422612.MovieDownloadService;
 import pv256.fi.muni.cz.movio2uco_422612.R;
 import pv256.fi.muni.cz.movio2uco_422612.entities.Movie;
-import pv256.fi.muni.cz.movio2uco_422612.entities.MovieList;
 
 /**
  * Created by pato on 19.10.2017.
@@ -69,7 +64,9 @@ public class MovieListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mContext = getActivity().getApplicationContext();
+
     }
+
 
     @Nullable
     @Override
@@ -94,6 +91,7 @@ public class MovieListFragment extends Fragment {
         }
         super.onSaveInstanceState(outState);
     }
+
 
     public interface OnMovieSelectListener {
         void onMovieSelect(int position);

@@ -13,4 +13,12 @@ public class MovieList {
     public int totalResults;
     @SerializedName("total_pages")
     public int totalPages;
+
+    public Movie[] getResults() {
+        return results;
+    }
+
+    public void setResults(Movie[] results) {
+        this.results = results;
+    }
 }

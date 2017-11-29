@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="pv256.fi.muni.cz.movio2uco_422612">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -21,11 +22,21 @@
         <activity
             android:name=".MovieDetailActivity"
             android:label="@string/detail_title"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".MainActivity"/>
         </activity>
+
+        <service
+            android:name=".MovieDownloadService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+        <service
+            android:name=".MyIntentService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>
