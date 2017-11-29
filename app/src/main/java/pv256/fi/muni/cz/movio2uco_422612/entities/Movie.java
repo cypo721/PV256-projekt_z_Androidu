@@ -3,24 +3,33 @@ package pv256.fi.muni.cz.movio2uco_422612.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by pato on 17.10.2017.
  */
 
 public class Movie implements Parcelable{
 
+    @SerializedName("realease_date")
     private long mRealeaseDate;
+    @SerializedName("poster_path")
     private String mCoverPath;
+    @SerializedName("original_title")
     private String mTitle;
+    @SerializedName("backdrop_path")
     private String mBackdrop;
+    @SerializedName("vote_average")
     private float mPopularity;
+    private int mCoverId;
 
-    public Movie(long realeaseDate, String coverPath, String title, String backdrop, float popularity) {
+    public Movie(long realeaseDate, String coverPath, String backdrop, String title, float popularity, int coverId) {
         mRealeaseDate = realeaseDate;
         mCoverPath = coverPath;
         mTitle = title;
         mBackdrop = backdrop;
         mPopularity = popularity;
+        mCoverId = coverId;
     }
 
     public long getRealeaseDate() {
@@ -63,12 +72,21 @@ public class Movie implements Parcelable{
         mPopularity = popularity;
     }
 
+    public int getCoverId() {
+        return mCoverId;
+    }
+
+    public void setCoverId(int coverId) {
+        mCoverId = coverId;
+    }
+
     protected Movie(Parcel in) {
         mRealeaseDate = in.readLong();
         mCoverPath = in.readString();
         mTitle = in.readString();
         mBackdrop = in.readString();
         mPopularity = in.readFloat();
+        mCoverId = in.readInt();
     }
 
     @Override
@@ -83,6 +101,7 @@ public class Movie implements Parcelable{
         dest.writeString(mTitle);
         dest.writeString(mBackdrop);
         dest.writeFloat(mPopularity);
+        dest.writeInt(mCoverId);
     }
 
     @SuppressWarnings("unused")

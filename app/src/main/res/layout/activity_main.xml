@@ -12,23 +12,11 @@
     android:background="?colorAccent"
     tools:context="pv256.fi.muni.cz.movio2uco_422612.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <!-- ukol 2 <Button-->
-        <!--android:id="@+id/switch_theme_button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Switch theme!"/>-->
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:id="@+id/fragment_main"
               android:name="pv256.fi.muni.cz.movio2uco_422612.fragments.MovieListFragment"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context="cz.muni.fi.pv256.masterdetaildemo.MainActivity"
               tools:layout="@android:layout/list_content" />
 </RelativeLayout>

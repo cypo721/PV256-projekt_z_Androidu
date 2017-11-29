@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import pv256.fi.muni.cz.movio2uco_422612.BuildConfig;
 import pv256.fi.muni.cz.movio2uco_422612.R;
 import pv256.fi.muni.cz.movio2uco_422612.entities.Movie;
 
@@ -54,7 +55,7 @@ public class DetailFragment extends Fragment {
 
         if (mMovie != null) {
             titleTv.setText(mMovie.getTitle());
-            titleLowTv.setText(mMovie.getCoverPath());
+            titleLowTv.setText(mMovie.getBackdrop());
         }
 
         return view;
@@ -65,38 +66,51 @@ public class DetailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d(TAG, " onAttach method");
+        if(BuildConfig.LOGGING){
+            Log.d(TAG, " onAttach method");
+        }
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
         // The activity is about to become visible.
-        Log.d(TAG, " onStart method");
+        if(BuildConfig.LOGGING) {
+            Log.d(TAG, " onStart method");
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         // The activity has become visible (it is now "resumed").
-        Log.d(TAG, " onResume method");
+        if(BuildConfig.LOGGING) {
+            Log.d(TAG, " onResume method");
+        }
     }
     @Override
     public void onPause() {
         super.onPause();
         // Another activity is taking focus (this activity is about to be "paused").
-        Log.d(TAG, " onPause method");
+        if(BuildConfig.LOGGING) {
+            Log.d(TAG, " onPause method");
+        }
     }
     @Override
     public void onStop() {
         super.onStop();
         // The activity is no longer visible (it is now "stopped")
-        Log.d(TAG, " onStop method");
+        if(BuildConfig.LOGGING) {
+            Log.d(TAG, " onStop method");
+        }
     }
     @Override
     public void onDestroy() {
         super.onDestroy();
         // The activity is about to be destroyed.
-        Log.d(TAG, " onDestroy method");
+        if(BuildConfig.LOGGING) {
+            Log.d(TAG, " onDestroy method");
+        }
     }
 }
