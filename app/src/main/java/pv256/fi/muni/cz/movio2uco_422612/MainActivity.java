@@ -13,7 +13,12 @@ import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -34,11 +39,10 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
     private static final String THEME = "mainTheme";
     private static final String APP = "movio";
     private boolean mTwoPane;
-    private ArrayList<Object> mData = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
-    private CategoryRecyclerAdapter mAdapter;
-    private AsyncTask loaderTask;
+    public static ArrayList<Object> mData = new ArrayList<>();
+    private SwitchCompat mSwitchButton;
+    private Toolbar toolbar;
+    protected MovieListFragment fragmentToCreate;
 
 
     @Override
@@ -61,82 +65,41 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
             }
         } else {
             mTwoPane = false;
-            getSupportActionBar().setElevation(0f);
         }
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        setRecyclerViewLayoutManager();
-
-        mAdapter = new CategoryRecyclerAdapter(this, new ArrayList<>());
-        mRecyclerView.setAdapter(mAdapter);
-        final ArrayList<Object> items = new ArrayList<>(14);
-
-        Intent intent = new Intent(this, MovieDownloadService.class);
-        intent.setAction(MovieDownloadService.ACTION_POPULAR);
-        startService(intent);
-        intent = new Intent(this, MovieDownloadService.class);
-        intent.setAction(MovieDownloadService.ACTION_NEW);
-        startService(intent);
-
-        IntentFilter intentFilter = new IntentFilter(MovieDownloadService.INTENT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMovieListReceiver, intentFilter);
+        mData = new ArrayList<Object>();
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
-    private BroadcastReceiver mMovieListReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String error = intent.getStringExtra(MovieDownloadService.RESPONSE);
-            if (error != null) {
-                switch (error) {
-                    case MovieDownloadService.ERROR_CONNECTION:
-                        mRecyclerView.setVisibility(View.GONE);
-                        findViewById(R.id.no_internet).setVisibility(View.VISIBLE);
-                        break;
-                    case MovieDownloadService.ERROR_PARSING:
-                        mRecyclerView.setVisibility(View.GONE);
-                        findViewById(R.id.empty_view).setVisibility(View.VISIBLE);
-                        break;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem item = menu.findItem(R.id.menuSwitch);
+        item.setActionView(R.layout.menu_switch);
+        mSwitchButton = item.getActionView().findViewById(R.id.switchBtn);
+        mSwitchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    compoundButton.setText("Favourites");
+                    compoundButton.setChecked(true);
+                    fragmentToCreate = MovieListFragment.newInstance(true);
+                } else {
+                    compoundButton.setText("Discover");
+                    compoundButton.setChecked(false);
+                    fragmentToCreate = MovieListFragment.newInstance(false);
                 }
-                return;
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_main, fragmentToCreate)
+                        .commit();
             }
-            String action = intent.getStringExtra(MovieDownloadService.ACTION);
-            ArrayList<Movie> movies = intent.getExtras().getParcelableArrayList(MovieDownloadService.RESPONSE);
-            switch (action) {
-                case MovieDownloadService.ACTION_POPULAR:
-                    mData.add("Popular");
-                    mData.addAll(movies);
-                    break;
-                case MovieDownloadService.ACTION_NEW:
-                    mData.add("New");
-                    mData.addAll(movies);
-                    break;
-            }
-            if (mData.size() <= 2) {
-                mRecyclerView.setVisibility(View.GONE);
-                findViewById(R.id.empty_view).setVisibility(View.VISIBLE);
-            } else {
-                mAdapter.setItems(mData);
-            }
-        }
-    };
-
-    public void setRecyclerViewLayoutManager() {
-        int scrollPosition = 0;
-        if (mRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.scrollToPosition(scrollPosition);
+        });
+        return true;
     }
-
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(this, MovieDownloadService.class);
-        this.stopService(intent);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMovieListReceiver);
     }
 
     @Override
@@ -161,18 +124,5 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
     public void onMovieLongClick(int position) {
         Toast.makeText(this, ((Movie) mData.get(position)).getTitle(), Toast.LENGTH_SHORT).show();
     }
-
-
-    public boolean haveInternetConnection() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected();
-    }
-
-    private Date getCurrentTime() {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
-        return cal.getTime();
-    }
-
 
 }

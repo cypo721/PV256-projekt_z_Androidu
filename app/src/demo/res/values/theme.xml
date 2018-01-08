@@ -5,5 +5,8 @@
         <item name="colorPrimary">@color/colorPrimarySecond</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkSecond</item>
         <item name="colorAccent">@color/colorAccentSecond</item>
+        <!--<item name="colorPrimaryLight">@color/colorPrimaryLightSecond</item>-->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>

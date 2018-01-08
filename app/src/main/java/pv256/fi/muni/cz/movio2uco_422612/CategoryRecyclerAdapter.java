@@ -37,7 +37,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view; // = inflater.inflate(R.layout.fragment_movie_list, parent, false);
+        View view;
         switch (viewType) {
             case TYPE_CATEGORY:
                 view = inflater.inflate(R.layout.list_item_category, parent, false);
@@ -55,6 +55,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void setItems(ArrayList<Object> items) {
         this.mData = items;
         notifyDataSetChanged();
+        notifyItemRangeChanged(0, mData.size());
     }
 
     @Override
@@ -75,7 +76,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 Movie movie = (Movie) mData.get(position);
                 movieHolder.title.setText(movie.getTitle());
                 movieHolder.rating.setText(Float.toString(movie.getPopularity()));
-                Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500/" + movie.getCoverPath()).into(movieHolder.image);
+                Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500/" + movie.getBackdrop()).into(movieHolder.image);
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
