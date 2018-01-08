@@ -3,31 +3,55 @@ package pv256.fi.muni.cz.movio2uco_422612.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by pato on 17.10.2017.
  */
 
 public class Movie implements Parcelable{
 
-    private long mRealeaseDate;
+    @SerializedName("id")
+    private long mId;
+    @SerializedName("release_date")
+    private String mRealeaseDate;
+    @SerializedName("poster_path")
     private String mCoverPath;
+    @SerializedName("original_title")
     private String mTitle;
+    @SerializedName("backdrop_path")
     private String mBackdrop;
+    @SerializedName("vote_average")
     private float mPopularity;
+    @SerializedName("overview")
+    private String mDescription;
+    private int mCoverId;
 
-    public Movie(long realeaseDate, String coverPath, String title, String backdrop, float popularity) {
+    public Movie() {
+    }
+
+    public Movie(String realeaseDate, String coverPath, String backdrop, String title, float popularity, int coverId) {
         mRealeaseDate = realeaseDate;
         mCoverPath = coverPath;
         mTitle = title;
         mBackdrop = backdrop;
         mPopularity = popularity;
+        mCoverId = coverId;
     }
 
-    public long getRealeaseDate() {
+    public long getId() {
+        return mId;
+    }
+
+    public void setId(long id) {
+        mId = id;
+    }
+
+    public String getRealeaseDate() {
         return mRealeaseDate;
     }
 
-    public void setRealeaseDate(long realeaseDate) {
+    public void setRealeaseDate(String realeaseDate) {
         mRealeaseDate = realeaseDate;
     }
 
@@ -63,12 +87,31 @@ public class Movie implements Parcelable{
         mPopularity = popularity;
     }
 
+    public int getCoverId() {
+        return mCoverId;
+    }
+
+    public void setCoverId(int coverId) {
+        mCoverId = coverId;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public void setDescription(String description) {
+        this.mDescription = description;
+    }
+
     protected Movie(Parcel in) {
-        mRealeaseDate = in.readLong();
+        mId = in.readLong();
+        mRealeaseDate = in.readString();
         mCoverPath = in.readString();
         mTitle = in.readString();
         mBackdrop = in.readString();
         mPopularity = in.readFloat();
+        mDescription = in.readString();
+        mCoverId = in.readInt();
     }
 
     @Override
@@ -78,11 +121,14 @@ public class Movie implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(mRealeaseDate);
+        dest.writeLong(mId);
+        dest.writeString(mRealeaseDate);
         dest.writeString(mCoverPath);
         dest.writeString(mTitle);
         dest.writeString(mBackdrop);
         dest.writeFloat(mPopularity);
+        dest.writeString(mDescription);
+        dest.writeInt(mCoverId);
     }
 
     @SuppressWarnings("unused")

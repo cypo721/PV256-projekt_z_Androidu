@@ -1,30 +1,107 @@
 <!-- Master layout. -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/cover_image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:scaleType="fitXY"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:src="@drawable/plus"
+        android:layout_alignBottom="@+id/title_row"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="133dp"
+        android:layout_marginEnd="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/title_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cover_image"
+        android:background="?attr/colorPrimary"
+        android:gravity="left|center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/backdrop_image"
+            android:layout_width="105dp"
+            android:layout_height="153dp"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="false"
+            android:padding="10dp"
+            android:scaleType="fitStart"/>
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/detail_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?colorAccent"
+                android:textSize="14pt"/>
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?colorAccent"
+                android:textSize="10pt"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/overview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_row"
+        android:background="#FFFFFFFF"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <TextView
-            android:id="@+id/detail_movie"
-            android:layout_width="wrap_content"
+            android:id="@+id/description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textColor="?colorPrimaryDark"
-            android:textSize="8pt" />
+            android:layout_marginLeft="5dp"
+            android:text="Overview"
+            android:textColor="#666666"
+            android:textSize="12pt"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/darker_gray"/>
 
         <TextView
             android:id="@+id/detail_movie_low"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textColor="?colorPrimaryDark"
-            android:textSize="6pt" />
-    </LinearLayout>
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:scrollbars="vertical"
+            android:textColor="#000000"
+            android:textSize="8pt"
+            />
 
-</ScrollView>
+    </LinearLayout>
+</RelativeLayout>
