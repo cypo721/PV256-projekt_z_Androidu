@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.FragmentManager;
@@ -33,6 +34,7 @@ import pv256.fi.muni.cz.movio2uco_422612.entities.Movie;
 import pv256.fi.muni.cz.movio2uco_422612.entities.MovieList;
 import pv256.fi.muni.cz.movio2uco_422612.fragments.DetailFragment;
 import pv256.fi.muni.cz.movio2uco_422612.fragments.MovieListFragment;
+import pv256.fi.muni.cz.movio2uco_422612.syncadapter.UpdaterSyncAdapter;
 
 
 public class MainActivity extends AppCompatActivity implements MovieListFragment.OnMovieSelectListener, MovieListFragment.OnMovieLongClickListener {
@@ -42,13 +44,12 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
     public static ArrayList<Object> mData = new ArrayList<>();
     private SwitchCompat mSwitchButton;
     private Toolbar toolbar;
-    protected MovieListFragment fragmentToCreate;
+    private MovieListFragment fragmentToCreate;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
         if (findViewById(R.id.movie_detail_container) != null) {
             // The detail container view will be present only in the large-screen layouts
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
         mData = new ArrayList<Object>();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        UpdaterSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
         getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem item = menu.findItem(R.id.menuSwitch);
         item.setActionView(R.layout.menu_switch);
+
         mSwitchButton = item.getActionView().findViewById(R.id.switchBtn);
         mSwitchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -89,12 +93,24 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
                     compoundButton.setChecked(false);
                     fragmentToCreate = MovieListFragment.newInstance(false);
                 }
+
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_main, fragmentToCreate)
+                        .replace(R.id.fragment_main, fragmentToCreate, MovieListFragment.TAG)
                         .commit();
             }
         });
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.synchBtn:
+                UpdaterSyncAdapter.syncImmediately(getApplicationContext());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

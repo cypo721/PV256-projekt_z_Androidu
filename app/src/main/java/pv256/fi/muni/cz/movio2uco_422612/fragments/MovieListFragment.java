@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,22 +14,17 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.ListView;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import pv256.fi.muni.cz.movio2uco_422612.BuildConfig;
 import pv256.fi.muni.cz.movio2uco_422612.CategoryRecyclerAdapter;
@@ -48,13 +42,11 @@ import static pv256.fi.muni.cz.movio2uco_422612.MainActivity.mData;
  */
 
 public class MovieListFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Movie>> {
-    private static final String TAG = MovieListFragment.class.getSimpleName();
+    public static final String TAG = MovieListFragment.class.getSimpleName();
     private static final String SELECTED_KEY = "selected_position";
-
     private int mPosition = ListView.INVALID_POSITION;
     private OnMovieSelectListener mListener;
-    private Context mContext;
-    //private ArrayList<Object> mData = new ArrayList<>();
+
     private RecyclerView mRecyclerView;
     private TextView mEmptyView;
     private TextView mNoInternetView;
@@ -97,8 +89,6 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mData.clear();
-        mContext = getActivity().getApplicationContext();
         if (getArguments() != null) {
             isFavourite = getArguments().getBoolean("isFavourite");
         }else {
@@ -130,6 +120,7 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
                 Toast.makeText(getActivity(), "NO CONNECTION", Toast.LENGTH_LONG).show();
             }
             else {
+                mData.clear();
                 Intent intent = new Intent(getActivity(), MovieDownloadService.class);
                 intent.setAction(MovieDownloadService.ACTION_POPULAR);
                 getActivity().startService(intent);
@@ -155,6 +146,10 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
         mData.clear();
         for (Movie movie : data) {
+            // test of sync
+//            mMovieManager.deleteMovie(movie);
+//            movie.setRealeaseDate("1995-01-25");
+//            mMovieManager.createMovie(movie);
             mData.add(movie);
         }
         mAdapter.setItems(mData);

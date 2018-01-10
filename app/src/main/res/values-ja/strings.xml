@@ -4,4 +4,6 @@
     <string name="detail_title">%$#@%^$#</string>
     <string name="no_data">Nie su data na zobrazenie. JAPONCINA</string>
     <string name="no_internet_connection">Nie ste pripojeny k internetu. JAPONCINA</string>
+    <string name="content_authority">pv256.fi.muni.cz.movio2uco_422612.syncadapter.provider</string>
+    <string name="sync_account_type">pv256.fi.muni.cz.movio2uco_422612.syncadapter</string>
 </resources>

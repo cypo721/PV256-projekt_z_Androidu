@@ -131,6 +131,39 @@ public class Movie implements Parcelable{
         dest.writeInt(mCoverId);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Movie movie = (Movie) o;
+
+        if (mId != movie.mId) return false;
+        if (Float.compare(movie.mPopularity, mPopularity) != 0) return false;
+        if (mCoverId != movie.mCoverId) return false;
+        if (mRealeaseDate != null ? !mRealeaseDate.equals(movie.mRealeaseDate) : movie.mRealeaseDate != null)
+            return false;
+        if (mCoverPath != null ? !mCoverPath.equals(movie.mCoverPath) : movie.mCoverPath != null)
+            return false;
+        if (!mTitle.equals(movie.mTitle)) return false;
+        if (mBackdrop != null ? !mBackdrop.equals(movie.mBackdrop) : movie.mBackdrop != null)
+            return false;
+        return mDescription != null ? mDescription.equals(movie.mDescription) : movie.mDescription == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (mId ^ (mId >>> 32));
+        result = 31 * result + (mRealeaseDate != null ? mRealeaseDate.hashCode() : 0);
+        result = 31 * result + (mCoverPath != null ? mCoverPath.hashCode() : 0);
+        result = 31 * result + mTitle.hashCode();
+        result = 31 * result + (mBackdrop != null ? mBackdrop.hashCode() : 0);
+        result = 31 * result + (mPopularity != +0.0f ? Float.floatToIntBits(mPopularity) : 0);
+        result = 31 * result + (mDescription != null ? mDescription.hashCode() : 0);
+        result = 31 * result + mCoverId;
+        return result;
+    }
+
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
         @Override

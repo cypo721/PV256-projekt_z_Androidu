@@ -3,7 +3,14 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menuSwitch"
-        android:title=""
         android:actionLayout="@layout/menu_switch"
-        app:showAsAction="always" />
+        android:title=""
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/synchBtn"
+        android:icon="@drawable/sync"
+        android:title=""
+        app:showAsAction="always"
+        android:textColor="#FFFFFFFF"/>
 </menu>
