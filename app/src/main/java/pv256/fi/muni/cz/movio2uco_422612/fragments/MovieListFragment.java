@@ -59,8 +59,6 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
     private MovieDbHelper mDbHelper;
     private boolean isFavourite;
 
-    public MovieListFragment() {}
-
     public static MovieListFragment newInstance(Boolean isChecked) {
         MovieListFragment fragment = new MovieListFragment();
         Bundle args = new Bundle();
@@ -72,7 +70,6 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onAttach(Context activity) {
         super.onAttach(activity);
-
         try {
             mListener = (OnMovieSelectListener) activity;
         } catch (ClassCastException e) {

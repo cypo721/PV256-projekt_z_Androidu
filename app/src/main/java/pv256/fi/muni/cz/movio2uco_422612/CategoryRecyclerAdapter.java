@@ -1,7 +1,6 @@
 package pv256.fi.muni.cz.movio2uco_422612;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import pv256.fi.muni.cz.movio2uco_422612.entities.Movie;
@@ -52,7 +50,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         return null;
     }
 
-    public void setItems(ArrayList<Object> items) {
+    public void setItems(List<Object> items) {
         this.mData = items;
         notifyDataSetChanged();
         notifyItemRangeChanged(0, mData.size());

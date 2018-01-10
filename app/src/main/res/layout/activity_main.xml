@@ -15,12 +15,11 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/AppTheme"/>
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/fragment_main"
-              android:name="pv256.fi.muni.cz.movio2uco_422612.fragments.MovieListFragment"
-              android:layout_below="@id/toolbar"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:layout="@android:layout/list_content" />
+    <fragment
+        android:id="@+id/fragment_movie_list"
+        android:name="pv256.fi.muni.cz.movio2uco_422612.fragments.MovieListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        tools:layout="@android:layout/list_content"/>
 </RelativeLayout>

@@ -1,47 +1,29 @@
 package pv256.fi.muni.cz.movio2uco_422612;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import pv256.fi.muni.cz.movio2uco_422612.entities.Movie;
-import pv256.fi.muni.cz.movio2uco_422612.entities.MovieList;
 import pv256.fi.muni.cz.movio2uco_422612.fragments.DetailFragment;
 import pv256.fi.muni.cz.movio2uco_422612.fragments.MovieListFragment;
 import pv256.fi.muni.cz.movio2uco_422612.syncadapter.UpdaterSyncAdapter;
 
 
 public class MainActivity extends AppCompatActivity implements MovieListFragment.OnMovieSelectListener, MovieListFragment.OnMovieLongClickListener {
-    private static final String THEME = "mainTheme";
-    private static final String APP = "movio";
     private boolean mTwoPane;
-    public static ArrayList<Object> mData = new ArrayList<>();
+    public static List<Object> mData = new ArrayList<>();
     private SwitchCompat mSwitchButton;
     private Toolbar toolbar;
     private MovieListFragment fragmentToCreate;
@@ -93,9 +75,8 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
                     compoundButton.setChecked(false);
                     fragmentToCreate = MovieListFragment.newInstance(false);
                 }
-
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_main, fragmentToCreate, MovieListFragment.TAG)
+                        .replace(R.id.fragment_movie_list, fragmentToCreate, MovieListFragment.TAG)
                         .commit();
             }
         });
@@ -140,5 +121,4 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
     public void onMovieLongClick(int position) {
         Toast.makeText(this, ((Movie) mData.get(position)).getTitle(), Toast.LENGTH_SHORT).show();
     }
-
 }
