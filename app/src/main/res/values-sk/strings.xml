@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FilmoDB</string>
+    <string name="detail_title">Detail filmu</string>
+    <string name="no_data">Nie su data na zobrazenie.</string>
+    <string name="no_internet_connection">Nie ste pripojeny k internetu.</string>
+    <string name="content_authority">pv256.fi.muni.cz.movio2uco_422612.syncadapter.provider</string>
+    <string name="sync_account_type">pv256.fi.muni.cz.movio2uco_422612.syncadapter</string>
+</resources>

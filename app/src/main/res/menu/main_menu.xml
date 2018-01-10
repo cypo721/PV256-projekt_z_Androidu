@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menuSwitch"
+        android:actionLayout="@layout/menu_switch"
+        android:title=""
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/synchBtn"
+        android:icon="@drawable/sync"
+        android:title=""
+        app:showAsAction="always"
+        android:textColor="#FFFFFFFF"/>
+</menu>

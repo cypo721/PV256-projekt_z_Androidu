@@ -1,31 +1,106 @@
+def versionMajor = 0
+def versionMinor = 1
+def versionPatch = 0
+def versionBuild = 0
+
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+
+//    applicationVariants.all { variant -> // .all stejně jako each prochází všechny prvky kolekce, ale aplikuje se i v případě, že v ní přibudou nové prvky
+//        variant.outputs.each { output ->
+//            output.outputFileName = new File(
+//                    output.outputFile.parent,
+//                    "$project.name-$variant.name-$variant.versionName-${variant.versionCode}.apk")
+//        }
+//    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${variant.name}-${variant.versionName}.apk"
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+
     defaultConfig {
         applicationId "pv256.fi.muni.cz.movio2uco_422612"
         minSdkVersion 17
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     }
+
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            aaptOptions {
+                ignoreAssetsPattern 'values-ja'
+            }
+        }
+        debug {
+            applicationIdSuffix '.debug'
         }
     }
+
+    flavorDimensions "dev"
+    productFlavors {
+        full {
+            dimension "dev"
+            buildConfigField "boolean", "LOGGING", "false"
+            versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        }
+        demo {
+            applicationIdSuffix ".demo"
+            dimension "dev"
+            buildConfigField "boolean", "LOGGING", "true"
+            versionName "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}-${versionCode}"
+        }
+    }
+    sourceSets{
+        full{
+            res.srcDirs = ['res', 'src/main/res']
+        }
+        demo{
+            res.srcDirs = ['res', 'src/demo/res']
+        }
+    }
+
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.0'
-    compile 'com.android.support:design:25.3.0'
-    compile 'com.android.support:recyclerview-v7:25.3.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+    compile 'io.realm:android-adapters:2.0.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'net.danlew:android.joda:2.9.9.1'
     testCompile 'junit:junit:4.12'
+
+    androidTestCompile 'com.android.support:support-annotations:24.0.0'
+    androidTestCompile 'com.android.support.test:runner:0.5'
 }
